@@ -9,11 +9,15 @@ export class PersonagemService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(createPersonagemDto: CreatePersonagemDto) {
-    return 'This action adds a new personagem';
+    return this.prisma.personagem.create({
+      data: {
+        ...createPersonagemDto
+      }
+    });
   }
 
   findAll() {
-    return `This action returns all personagem`;
+    return this.prisma.personagem.findMany()
   }
 
   findOne(id: number) {
