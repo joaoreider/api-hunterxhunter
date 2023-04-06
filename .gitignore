@@ -2,6 +2,9 @@
 /dist
 /node_modules
 
+# Random
+.backlogdaapi.txt
+
 # Database 
 *.accdb
 *.db

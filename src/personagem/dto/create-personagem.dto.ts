@@ -21,4 +21,7 @@ export class CreatePersonagemDto extends  Personagem{
 
     @IsOptional()
     habilidades?: Prisma.HabilidadeUncheckedCreateNestedManyWithoutPersonagemInput;
+
+    
+
 }

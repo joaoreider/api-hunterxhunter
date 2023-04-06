@@ -8,26 +8,46 @@ export class PersonagemService {
 
   constructor(private readonly prisma: PrismaService) {}
 
+  private readonly include = {
+    habilidades: {
+      select: {
+        nome: true,
+        efeito: true,
+        
+      }
+    },
+    tipo: {
+      select: {
+        nome: true
+      }
+    }
+  };
+
   create(createPersonagemDto: CreatePersonagemDto) {
     return this.prisma.personagem.create({
       data: {
         ...createPersonagemDto
-      }
+      },
+      include: this.include
     });
   }
 
   findAll() {
-    return this.prisma.personagem.findMany()
+    return this.prisma.personagem.findMany({include: this.include});
   }
 
   findOne(id: number) {
-    return this.prisma.personagem.findUnique({where: {id}});
+    return this.prisma.personagem.findUnique({
+      where: {id},
+      include: this.include
+    });
   }
 
   update(id: number, data: UpdatePersonagemDto) {
     return this.prisma.personagem.update({
       where: {id},
-      data
+      data,
+      include: this.include
     });
   }
 
