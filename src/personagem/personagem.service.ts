@@ -21,14 +21,17 @@ export class PersonagemService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} personagem`;
+    return this.prisma.personagem.findUnique({where: {id}});
   }
 
-  update(id: number, updatePersonagemDto: UpdatePersonagemDto) {
-    return `This action updates a #${id} personagem`;
+  update(id: number, data: UpdatePersonagemDto) {
+    return this.prisma.personagem.update({
+      where: {id},
+      data
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} personagem`;
+    return this.prisma.personagem.delete({where: {id}});
   }
 }
