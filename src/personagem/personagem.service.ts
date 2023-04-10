@@ -37,21 +37,24 @@ export class PersonagemService {
   }
 
   findOne(nome: string) {
+    
     try {
-
-      return this.prisma.personagem.findMany({
       
+     return this.prisma.personagem.findMany({
+        
         where: {
           nome: {
             contains: nome
           }
         },
         include: this.include
+      }).then((personagens) => {
+        const resultado = personagens.length > 0 ? {status: HttpStatus.OK, message: personagens } : {status: HttpStatus.NOT_FOUND, message: "Personagem não encontrado"};
+        return Promise.resolve(resultado);
       });
 
     } catch {
-
-      return {status: HttpStatus.NOT_FOUND, message: "Personagem não encontrado"}
+      return {status: HttpStatus.INTERNAL_SERVER_ERROR, message: "Erro interno do sistema"}
     
     }
 

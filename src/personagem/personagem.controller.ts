@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, Res } from '@nestjs/common';
 import { PersonagemService } from './personagem.service';
 import { CreatePersonagemDto } from './dto/create-personagem.dto';
 import { UpdatePersonagemDto } from './dto/update-personagem.dto';
+import { Response } from 'express';
 
 @Controller('personagem')
 export class PersonagemController {
@@ -18,8 +19,10 @@ export class PersonagemController {
   }
 
   @Get(':nome')
-  findOne(@Param('nome') nome: string) {
-    return this.personagemService.findOne(nome);
+  async findOne(@Param('nome') nome: string, @Res() res: Response) {
+    const response = await  this.personagemService.findOne(nome);
+    return res.status(response.status).json(response);
+
   }
 
   @Patch(':id')
