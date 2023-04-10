@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePersonagemDto } from './dto/create-personagem.dto';
 import { UpdatePersonagemDto } from './dto/update-personagem.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -36,11 +36,26 @@ export class PersonagemService {
     return this.prisma.personagem.findMany({include: this.include});
   }
 
-  findOne(id: number) {
-    return this.prisma.personagem.findUnique({
-      where: {id},
-      include: this.include
-    });
+  findOne(nome: string) {
+    try {
+
+      return this.prisma.personagem.findMany({
+      
+        where: {
+          nome: {
+            contains: nome
+          }
+        },
+        include: this.include
+      });
+
+    } catch {
+
+      return {status: HttpStatus.NOT_FOUND, message: "Personagem não encontrado"}
+    
+    }
+
+
   }
 
   update(id: number, data: UpdatePersonagemDto) {

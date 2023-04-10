@@ -17,9 +17,9 @@ export class PersonagemController {
     return this.personagemService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.personagemService.findOne(+id);
+  @Get(':nome')
+  findOne(@Param('nome') nome: string) {
+    return this.personagemService.findOne(nome);
   }
 
   @Patch(':id')
