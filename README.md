@@ -8,7 +8,7 @@
 
 ## Description
 
-Uma api do anime Hunter x Hunter
+Hunter x Hunter API
 
 ## Installation
 
@@ -44,7 +44,7 @@ $ npm run test:cov
 
 ## Support
 
-Um projeto open source. Sinta-se à vontade para contribuir e dar suporte.
+An open source project. Feel free to contribute and support.
 
 
 ## License
