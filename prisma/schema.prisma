@@ -22,8 +22,7 @@ model Personagem {
 
 model Habilidade {
   id           Int         @id @default(autoincrement())
-  nome         String      @unique
-  efeito       String      @unique
+  nome         String          
   personagem   Personagem? @relation(fields: [personagemId], references: [id])
   personagemId Int?
 }

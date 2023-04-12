@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreatePersonagemDto } from './dto/create-personagem.dto';
 import { UpdatePersonagemDto } from './dto/update-personagem.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -11,9 +11,7 @@ export class PersonagemService {
   private readonly include = {
     habilidades: {
       select: {
-        nome: true,
-        efeito: true,
-        
+        nome: true,  
       }
     },
     tipo: {
@@ -22,6 +20,14 @@ export class PersonagemService {
       }
     }
   };
+
+  private async existePersonagem(id: number){
+    const personagem = await this.prisma.personagem.findUnique({where: {id}})
+    if (!personagem){
+      return false
+    }
+    return true
+  }
 
   create(createPersonagemDto: CreatePersonagemDto) {
     return this.prisma.personagem.create({
@@ -49,27 +55,43 @@ export class PersonagemService {
         },
         include: this.include
       }).then((personagens) => {
-        const resultado = personagens.length > 0 ? {status: HttpStatus.OK, message: personagens } : {status: HttpStatus.NOT_FOUND, message: "Personagem não encontrado"};
-        return Promise.resolve(resultado);
+        if (personagens.length > 0) {
+          return Promise.resolve(personagens)
+        }
+        throw new NotFoundException('Personagem não encontrado')
       });
 
     } catch {
-      return {status: HttpStatus.INTERNAL_SERVER_ERROR, message: "Erro interno do sistema"}
+      throw new InternalServerErrorException()
     
     }
 
 
   }
 
-  update(id: number, data: UpdatePersonagemDto) {
-    return this.prisma.personagem.update({
-      where: {id},
-      data,
-      include: this.include
-    });
+  async update(id: number, data: UpdatePersonagemDto) {
+
+    const personagem = await this.existePersonagem(id)
+    if (personagem ){
+      return this.prisma.personagem.update({
+        where: {id},
+        data,
+        include: this.include
+      });
+    }
+    throw new NotFoundException('Personagem não encontrado')
   }
 
-  remove(id: number) {
-    return this.prisma.personagem.delete({where: {id}});
+  async remove(id: number) {
+
+    const personagem = await this.existePersonagem(id)
+
+    if (personagem ){
+      return this.prisma.personagem.delete({where: {id}})
+    } 
+
+    throw new NotFoundException('Personagem não encontrado')
+    
+    
   }
 }

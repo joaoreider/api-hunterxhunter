@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus
 import { PersonagemService } from './personagem.service';
 import { CreatePersonagemDto } from './dto/create-personagem.dto';
 import { UpdatePersonagemDto } from './dto/update-personagem.dto';
-import { Response } from 'express';
 
 @Controller('personagem')
 export class PersonagemController {
@@ -19,10 +18,9 @@ export class PersonagemController {
   }
 
   @Get(':nome')
-  async findOne(@Param('nome') nome: string, @Res() res: Response) {
-    const response = await  this.personagemService.findOne(nome);
-    return res.status(response.status).json(response);
-
+  async findOne(@Param('nome') nome: string) {
+   return await this.personagemService.findOne(nome);
+   
   }
 
   @Patch(':id')
@@ -31,8 +29,7 @@ export class PersonagemController {
   }
 
   @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
-    return this.personagemService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.personagemService.remove(+id);
   }
 }
