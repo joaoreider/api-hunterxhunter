@@ -22,7 +22,7 @@ model Personagem {
 
 model Habilidade {
   id           Int         @id @default(autoincrement())
-  nome         String          
+  nome         String
   personagem   Personagem? @relation(fields: [personagemId], references: [id])
   personagemId Int?
 }
@@ -31,4 +31,11 @@ model Tipo {
   id          Int          @id @default(autoincrement())
   nome        String       @unique
   personagens Personagem[]
+}
+
+model User {
+  id    Int    @id @default(autoincrement())
+  email String @unique
+  password String
+  nome  String
 }
