@@ -42,6 +42,15 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Tech
+- Typescript
+- NestJS
+- Prisma ORM
+- NodeJS
+- Git
+- Docker
+- Cryptography 
+
 ## Support
 
 An open source project. Feel free to contribute and support.
