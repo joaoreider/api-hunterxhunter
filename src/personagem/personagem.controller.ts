@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus
 import { PersonagemService } from './personagem.service';
 import { CreatePersonagemDto } from './dto/create-personagem.dto';
 import { UpdatePersonagemDto } from './dto/update-personagem.dto';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('personagem')
 export class PersonagemController {
@@ -12,11 +13,13 @@ export class PersonagemController {
     return this.personagemService.create(createPersonagemDto);
   }
 
+  @IsPublic()
   @Get()
   findAll() {
     return this.personagemService.findAll();
   }
 
+  @IsPublic()
   @Get(':nome')
   async findOne(@Param('nome') nome: string) {
    return await this.personagemService.findOne(nome);
