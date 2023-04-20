@@ -3,10 +3,13 @@ import { PersonagemService } from './personagem.service';
 import { CreatePersonagemDto } from './dto/create-personagem.dto';
 import { UpdatePersonagemDto } from './dto/update-personagem.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Personagens')
 @Controller('personagem')
 export class PersonagemController {
   constructor(private readonly personagemService: PersonagemService) {}
+
 
   @Post()
   create(@Body() createPersonagemDto: CreatePersonagemDto) {
