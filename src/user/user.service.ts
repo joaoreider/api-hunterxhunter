@@ -24,17 +24,12 @@ export class UserService {
   }
 
 
-  async findByEmail(email: string) {
-    const user = await this.prisma.user.findUnique({
+  findByEmail(email: string) {
+    return this.prisma.user.findUnique({
       where: {
         email: email
       }
-    })
-
-    if (!user){
-      throw new NotFoundException('Email inválido')
-    }
-    return user
+    });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
