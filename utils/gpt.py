@@ -30,3 +30,4 @@ def traduz(texto):
     tradutor = Translator()
     resultado = tradutor.translate(texto, src='en', dest='pt')
     return resultado.text
+

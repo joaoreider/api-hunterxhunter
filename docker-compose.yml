@@ -4,7 +4,7 @@ services:
     build: .
     env_file: .env
     volumes:
-      - ./:/usr/src/app
+      - .:/usr/src/app
     ports:
       - "3000:3000"
     command: npm run start:dev
